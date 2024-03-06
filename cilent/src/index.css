@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  background-color: #979797;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+
+
+@font-face {
+  font-family: 'SF-Pro';
+  src: url('./assets/font/SF-Pro-Rounded-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF-Pro';
+  src: url('./assets/font/SF-Pro-Rounded-Thin.otf') format('opentype');
+  font-weight: 100; /* Thin weight */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF-Pro';
+  src: url('./assets/font/SF-Pro-Text-Heavy.otf') format('opentype');
+  font-weight: 500; /* Medium weight */
+  font-style: normal;
+}
+
+body {
+  font-family: 'SF-Pro', sans-serif;
+}
+
+
