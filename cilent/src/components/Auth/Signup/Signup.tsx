@@ -12,84 +12,76 @@ import {
     Link,
     Stack,
     Text,
-    useToast
-} from '@chakra-ui/react'
-import { OAuthButtonGroup } from './OAuthButtonGroup'
-import { PasswordField } from './PasswordField'
-import axios from 'axios';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {useAuth} from "../../../context/Auth.Context";
+    useToast,
+} from '@chakra-ui/react';
+import { OAuthButtonGroup } from './OAuthButtonGroup';
+import { PasswordField } from './PasswordField';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import axios from "axios";
+import URL from '../../../utils/Constant';
 
 
+interface SignupProps { }
 
-export const App = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const url = URL;
+export const Signup: React.FC<SignupProps> = () => {
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const toast = useToast();
-    const { login } = useAuth();
-    const navigate = useNavigate();
 
-    const handleEmailChange = (event: any) => {
+    const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
     };
 
-    const handlePasswordChange = (event: any) => {
+    const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
     };
 
-    const handleLogIn = async (e: any) => {
+    const handleSignUp = async (e: FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${url}/auth/login`, {
+            // Send a POST request to the server with user-provided email and password
+            const response = await axios.post(`${URL}/auth/signup`, {
                 email,
                 password,
             });
-            // Successful login
+
+            // Display a success message to the user upon successful signup
             toast({
-                title: `Successfully Logged In`,
-                description: `Welcome back! You have successfully logged in.`,
+                title: `Account created.`,
+                description: "Your account has been successfully created.",
                 status: 'success',
-                duration: 3000,
+                duration: 5000,
                 position: "top",
                 isClosable: true,
             });
-            // Update AuthContext with login data
 
-            if (response) {
-                const { _id, email, token } = response.data.payload;
-                login({
-                    _id,
-                    email,
-                    token
-                });
-                // Navigate to the home page
-                navigate('/');
-            }
             // Handle the response, e.g., show a success message or redirect the user
             console.log(response.data);
         } catch (error) {
+            // Display an error message to the user if signup fails
             toast({
-                title: `Login Failed`,
-                description: `Oops! There was an error during login. Please check your credentials and try again.`,
+                title: `Error during signup.`,
+                description: "Unable to create your account. Please try again.",
                 status: 'error',
                 duration: 3000,
                 position: "top",
                 isClosable: true,
             });
+
+            // Log the detailed error information for debugging purposes
             console.error('Error during signup:', error);
         }
     };
 
     return (
+
         <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
             <Stack spacing="8">
                 <Stack spacing="6">
                     <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
-                        <Heading size={{ base: 'xs', md: 'sm' }}>Log in to your account</Heading>
+                        <Heading size={{ base: 'xs', md: 'sm' }}>Let's Create Your Account</Heading>
                         <Text color="fg.muted">
-                            Don't have an account? <Link href="#">Sign up</Link>
+                            Already have an account <Link href="/auth/login">Log up</Link>
                         </Text>
                     </Stack>
                 </Stack>
@@ -110,12 +102,9 @@ export const App = () => {
                         </Stack>
                         <HStack justify="space-between">
                             <Checkbox defaultChecked>Remember me</Checkbox>
-                            <Button variant="text" size="sm">
-                                Forgot password?
-                            </Button>
                         </HStack>
                         <Stack spacing="6">
-                            <Button onClick={handleLogIn}>Sign in</Button>
+                            <Button onClick={handleSignUp}>Sign Up</Button>
                             <HStack>
                                 <Divider />
                                 <Text textStyle="sm" whiteSpace="nowrap" color="fg.muted">
@@ -129,5 +118,6 @@ export const App = () => {
                 </Box>
             </Stack>
         </Container>
-    )
+
+    );
 }

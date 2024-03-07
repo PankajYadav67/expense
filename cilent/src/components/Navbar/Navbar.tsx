@@ -1,17 +1,20 @@
 import { Box, Flex, Text, Button, Stack, Input, InputGroup, Icon, InputLeftElement, Divider } from '@chakra-ui/react';
 import { theme } from "../../main";
-import { Search2Icon } from '@chakra-ui/icons';
+// import { Search2Icon } from '@chakra-ui/icons';
 
 const Navbar: React.FC = () => {
     const isLoggedIn = false; // Replace with your actual authentication status
 
     return (
-        <Box w={1366} bg={theme.colors.brand.lightestGray}>
-            <div className="sm:mx-40 sm:px-10 sm:py-5 font-[SF-Pro] p">
+        <Box w="100%" bg={theme.colors.brand.lightestGray} position="fixed" zIndex="1000">
+            <div className=" sm:mx-10 sm:py-2 font-[SF-Pro] ">
                 <Flex justify="space-between" m={0} px={3} align="center">
-                    <Text fontSize="2xl" fontWeight="bold">
-                        EXPENSE
-                    </Text>
+                    <a href="/">
+
+                        <Text fontSize="2xl" fontWeight="bold">
+                            Expense Tracker
+                        </Text>
+                    </a>
 
                     <Flex>
                         {isLoggedIn ? (
@@ -22,7 +25,7 @@ const Navbar: React.FC = () => {
                         ) : (
                             // User is not logged in, show search input and button
                             <Stack direction='row' align='center'>
-                                <InputGroup className='sm:w-[800px] w-24'>
+                                {/* <InputGroup className='sm:w-[800px] w-24'>
                                     <InputLeftElement
                                         pointerEvents="none"
                                         alignItems="center"
@@ -31,19 +34,15 @@ const Navbar: React.FC = () => {
                                     <Input placeholder='Search' bg="white" size="lg" />
 
 
-                                </InputGroup>
+                                </InputGroup> */}
 
-                                <a href='/auth/login'>
-                                <Button colorScheme='blue' >
-                                    Login
-                                </Button>
-                                </a>
+
                             </Stack>
                         )}
                     </Flex>
                 </Flex >
             </div>
-            <Divider />
+            <Divider sx={{ height: "2px", bg: "blue.500" }} />
         </Box >
     );
 };

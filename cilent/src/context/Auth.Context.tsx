@@ -1,21 +1,31 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
-const AuthContext = createContext(1);
+interface UserData {
+  _id: string;
+  email: string;
+}
 
-export const AuthProvider = ({ children: any}) => {
+interface AuthContextProps {
+  isLoggedIn: boolean;
+  login: (userData: UserData) => void;
+  logout: () => void;
+  userData: UserData;
+}
+
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState({
+  const [userData, setUserData] = useState<UserData>({
     _id: "",
-    email: "",
-    token: "",
+    email: ""
   });
 
-  const login = (userData: any) => {
+  const login = (userData: UserData) => {
     setIsLoggedIn(true);
     setUserData({
       _id: userData._id,
       email: userData.email,
-      token: userData.token,
     });
   };
 
@@ -23,8 +33,7 @@ export const AuthProvider = ({ children: any}) => {
     setIsLoggedIn(false);
     setUserData({
       _id: "",
-      email: "",
-      token: "",
+      email: ""
     });
     localStorage.clear();
   };
@@ -36,4 +45,10 @@ export const AuthProvider = ({ children: any}) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};
