@@ -1,8 +1,9 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
 interface UserData {
-  _id: string;
+  _id: any;
   email: string;
+  token: string;
 }
 
 interface AuthContextProps {
@@ -18,7 +19,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState<UserData>({
     _id: "",
-    email: ""
+    email: "",
+    token: ""
   });
 
   const login = (userData: UserData) => {
@@ -26,6 +28,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setUserData({
       _id: userData._id,
       email: userData.email,
+      token: userData.token
     });
   };
 
@@ -33,7 +36,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setIsLoggedIn(false);
     setUserData({
       _id: "",
-      email: ""
+      email: "",
+      token: ""
     });
     localStorage.clear();
   };

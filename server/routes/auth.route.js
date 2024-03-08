@@ -1,9 +1,11 @@
 const { Router } = require("express");
 const UserModel = require("../models/auth.model");
 const jwt = require("jsonwebtoken");
-
+const bcrypt = require("bcrypt");
 const authRouter = Router();
-const SECRET = process.env.JWT_SECRET;
+require("dotenv").config();
+
+const SECRET = process.env.SECRET;
 
 // Middleware to validate required fields
 const validateFields = (req, res, next) => {
@@ -28,7 +30,6 @@ const checkExistingUser = async (req, res, next) => {
         .status(400)
         .send({ message: "User with the same email already exists" });
     }
-
     next();
   } catch (error) {
     console.error("Error checking existing user:", error);
@@ -43,11 +44,11 @@ authRouter.post(
   async (req, res) => {
     try {
       const { email, password } = req.body;
-
+      const hashedPassword = await bcrypt.hash(password, 10);
       // Create a new user
       const newUser = await UserModel.create({
         email,
-        password,
+        password: hashedPassword,
       });
 
       res.status(200).send({ message: "Successfully registered", newUser });
@@ -61,21 +62,30 @@ authRouter.post(
 authRouter.post("/login", validateFields, async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // Find user by email
     const user = await UserModel.findOne({ email });
 
-    if (user && user.password === password) {
-      // User found and password matches
-      let { email, _id } = user;
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
+    if (passwordMatch === true) {
+      let { email, _id } = user;
       let payload = {
         email,
         _id,
       };
-      const token = jwt.sign(payload,SECRET);
+      console.log(SECRET);
+      const token = new Promise((resolve, reject) => {
+        jwt.sign(payload, SECRET, (err, token) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(token);
+          }
+        });
+      });
 
-      res.status(200).send({ message: "Login successful", payload });
+      res
+        .status(200)
+        .send({ message: "Login successful", payload, token: await token });
     } else {
       res.status(401).send({ message: "Wrong credentials" });
     }
@@ -84,9 +94,5 @@ authRouter.post("/login", validateFields, async (req, res) => {
     res.status(500).send({ message: "Error during login, please try again" });
   }
 });
-
-
-
-
 
 module.exports = authRouter;

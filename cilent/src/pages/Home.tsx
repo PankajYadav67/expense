@@ -1,6 +1,7 @@
 import Sidebar from "../components/Sidebar.tsx/Sidebar";
 import Server from "../components/Home/Server";
 import HomeRight from "./HomeRight";
+import Protected from "../components/Home/Protected";
 
 
 const Home: React.FC = () => {
@@ -19,6 +20,7 @@ const Home: React.FC = () => {
         <div className="sm:col-span-10 justify-center sm:text-3xl sm:mx-5 sm:ml-12  sm:px-6 sm:space-y-6 text-xl  rounded-md ">
           <HomeRight />
           <Server />
+
         </div>
       </div>
 

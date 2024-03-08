@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const authRouter = require("./routes/auth.route");
+const protectedRouter = require("./routes/protected.route");
 const connection = require("./config/db");
-const authMiddleware = require("./middlewares/auth.middleware");
+
 
 require("dotenv").config();
 
@@ -14,18 +15,18 @@ app.use(express.json());
 app.use(express.text());
 
 app.use("/auth", authRouter);
+app.use("/protected", protectedRouter);
 
 app.get("/", (req, res) => {
   res.send(
     "This is HomePage if its visiable for you its mean your express app running fine..."
   );
 });
-app.get("/protected", authMiddleware, (req, res) => {
-  res.json({ msg: "Access granted", user: req.user });
-});
+
 app.post("/post", (req, res) => {
   res.send("got it");
 });
+
 
 app.listen(PORT, async () => {
   try {

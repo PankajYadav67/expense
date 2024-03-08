@@ -21,6 +21,7 @@ import { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import { useAuth } from "../../../context/Auth.Context";
 import URL from '../../../utils/Constant';
+// import SetAuthToken from '../../../utils/Axios.Config';
 
 interface LoginProps { }
 
@@ -58,11 +59,8 @@ export const Login: React.FC<LoginProps> = () => {
             });
 
             if (response) {
-                const { _id, email } = response.data.payload;
-                login({
-                    _id,
-                    email
-                });
+                const { payload } = response.data;
+                // SetAuthToken(payload);
                 navigate('/');
             }
             console.log(response.data);

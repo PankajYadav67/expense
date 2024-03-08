@@ -4,8 +4,11 @@ import { Box, Flex, Image, Text, Button, } from '@chakra-ui/react';
 import { theme } from '../../main';
 
 const Sidebar: React.FC = () => {
+    const isLogged = false;
+
     return (
-        <Box  bg={theme.colors.brand.lightestGray} position="fixed" >
+
+        <Box bg={theme.colors.brand.lightestGray} position="fixed" >
             <Box
                 color="black"
                 w="64"
@@ -49,11 +52,18 @@ const Sidebar: React.FC = () => {
                             Last Login: 2024-03-07 12:30 PM
                         </Text>
                     </Box>
-                    <a href='/auth/login'>
+
+                    {isLogged ? (
                         <Button colorScheme='blue' >
-                            Login
+                            Log-Out
                         </Button>
-                    </a>
+                    ) : (
+                        <a href='/auth/login'>
+                            <Button colorScheme='blue' >
+                                Log-In
+                            </Button>
+                        </a>
+                    )}
                 </Flex>
 
             </Box>
