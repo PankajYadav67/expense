@@ -1,7 +1,9 @@
 const { Router } = require("express");
 const UserModel = require("../models/auth.model");
+const jwt = require("jsonwebtoken");
 
 const authRouter = Router();
+const SECRET = process.env.JWT_SECRET;
 
 // Middleware to validate required fields
 const validateFields = (req, res, next) => {
@@ -71,7 +73,9 @@ authRouter.post("/login", validateFields, async (req, res) => {
         email,
         _id,
       };
-      res.send({ message: "Login successful", payload });
+      const token = jwt.sign(payload,SECRET);
+
+      res.status(200).send({ message: "Login successful", payload });
     } else {
       res.status(401).send({ message: "Wrong credentials" });
     }
@@ -80,5 +84,9 @@ authRouter.post("/login", validateFields, async (req, res) => {
     res.status(500).send({ message: "Error during login, please try again" });
   }
 });
+
+
+
+
 
 module.exports = authRouter;
