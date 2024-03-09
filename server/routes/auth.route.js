@@ -83,9 +83,9 @@ authRouter.post("/login", validateFields, async (req, res) => {
         });
       });
 
-      res.cookie("JWT_AUTH", token, { httpOnly: true });
+      res.cookie("JWT_AUTH",await token, { httpOnly: true });
 
-      res.status(200).send({ message: "Login successful", payload, token });
+      res.status(200).send({ message: "Login successful", payload,token });
     } else {
       res.status(401).send({ message: "Wrong credentials" });
     }

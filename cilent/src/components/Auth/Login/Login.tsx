@@ -83,7 +83,7 @@ export const Login: React.FC<LoginProps> = () => {
     const fetchData = async (token: string) => {
         try {
             // Axios will automatically include the token in the headers due to the interceptor
-            const response = await axios.get(`${URL}/protected`, {
+            const response = await axios.get(`${URL}/`, {
                 headers: {
                     'x-auth-token': token,
                 },

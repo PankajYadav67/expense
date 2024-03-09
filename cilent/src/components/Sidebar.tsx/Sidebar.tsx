@@ -62,13 +62,13 @@ const Sidebar: React.FC = () => {
                     </Box>
 
                     {isLoggedIn ? (
-                        <Button colorScheme='blue' >
+                        <Button colorScheme='blue' onClick={() => logout()} >
                             Log-Out
                         </Button>
                     ) : (
                         <a href='/auth/login'>
 
-                            <Button colorScheme='blue' onClick={logout} >
+                            <Button colorScheme='blue'  >
                                 Log-In
                             </Button>
                         </a>
