@@ -60,6 +60,8 @@ export const Login: React.FC<LoginProps> = () => {
 
             if (response) {
                 const { payload } = response.data;
+                const { token } = response.data;
+                fetchData(token);
                 login(payload);
                 navigate('/');
             }
@@ -76,6 +78,23 @@ export const Login: React.FC<LoginProps> = () => {
             console.error('Error during login:', error);
         }
     };
+
+
+    const fetchData = async (token: string) => {
+        try {
+            // Axios will automatically include the token in the headers due to the interceptor
+            const response = await axios.get(`${URL}/protected`, {
+                headers: {
+                    'x-auth-token': token,
+                },
+            });
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error fetching protected data:', error);
+        }
+    };
+
+
 
     return (
         <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
