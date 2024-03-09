@@ -1,9 +1,10 @@
 import { Box, Flex, Text, Button, Stack, Input, InputGroup, Icon, InputLeftElement, Divider } from '@chakra-ui/react';
 import { theme } from "../../main";
+import { useAuth } from '../../context/Auth.Context';
 // import { Search2Icon } from '@chakra-ui/icons';
 
 const Navbar: React.FC = () => {
-    const isLoggedIn = false; // Replace with your actual authentication status
+
 
     return (
         <Box w="100%" bg={theme.colors.brand.lightestGray} position="fixed" zIndex="1000">
@@ -17,28 +18,20 @@ const Navbar: React.FC = () => {
                     </a>
 
                     <Flex>
-                        {isLoggedIn ? (
-                            // User is logged in, show logout button
-                            <Button colorScheme='blue' >
-                                Logout
-                            </Button>
-                        ) : (
+                        {
                             // User is not logged in, show search input and button
-                            <Stack direction='row' align='center'>
-                                {/* <InputGroup className='sm:w-[800px] w-24'>
-                                    <InputLeftElement
-                                        pointerEvents="none"
-                                        alignItems="center"
-                                        children={<Icon as={Search2Icon} color="gray.300" />}
-                                    />
-                                    <Input placeholder='Search' bg="white" size="lg" />
+                            // <Stack direction='row' align='center'>
+                            //     <InputGroup className='sm:w-[800px] w-24'>
+                            //         <InputLeftElement
+                            //             pointerEvents="none"
+                            //             alignItems="center"
+                            //             children={<Icon as={Search2Icon} color="gray.300" />}
+                            //         />
+                            //         <Input placeholder='Search' bg="white" size="lg" />
+                            //     </InputGroup>
+                            // </Stack>
+                        }
 
-
-                                </InputGroup> */}
-
-
-                            </Stack>
-                        )}
                     </Flex>
                 </Flex >
             </div>

@@ -4,6 +4,7 @@ import App from './App.tsx'
 import './index.css'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './context/Auth.Context.tsx';
 
 // 2. Extend the theme to include custom colors, fonts, etc
 const colors = {
@@ -13,25 +14,26 @@ const colors = {
     lightGray: '#979797',
     lightestGray: '#f5f5f5',
     blue: '#007AFF',
-    red:"#FF3B30",
-    orange:"#FF9500",
+    red: "#FF3B30",
+    orange: "#FF9500",
     yellow: "#FFCC00",
-    green:"#4CD964",
+    green: "#4CD964",
     tealBlue: "#5AC8FA",
     purple: "#5856D6",
-    pink:"#FF2D55"
+    pink: "#FF2D55"
   },
 }
 
 export const theme = extendTheme({ colors })
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
- 
+  <AuthProvider>
     <BrowserRouter>
       <ChakraProvider theme={theme}>
         <App />
       </ ChakraProvider>
     </BrowserRouter>
+  </AuthProvider>
 
- 
+
 )

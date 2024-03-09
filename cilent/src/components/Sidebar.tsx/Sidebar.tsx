@@ -2,9 +2,11 @@
 import React from 'react';
 import { Box, Flex, Image, Text, Button, } from '@chakra-ui/react';
 import { theme } from '../../main';
+import { useAuth } from '../../context/Auth.Context';
 
 const Sidebar: React.FC = () => {
-    const isLogged = false;
+    const { isLoggedIn, logout } = useAuth()
+    const { email, _id } = useAuth().userData;
 
     return (
 
@@ -13,25 +15,31 @@ const Sidebar: React.FC = () => {
                 color="black"
                 w="64"
                 p="8"
-                h="full"
+                h="560"
                 display="flex"
                 flexDir="column"
                 borderRight="2px solid var(--chakra-colors-blue-500)"
             >
                 {/* User Info */}
-                <Flex align="center" mb="8">
-                    <Image src="path/to/profile-image.jpg" borderRadius="full" boxSize="10" mr="2" />
-                    <Box>
-                        <Text fontWeight="bold">Your Name</Text>
-                        <Text >YourName@gmail.com</Text>
-                    </Box>
+                {
+                    isLoggedIn ? (<div>
 
-                </Flex>
-                <Flex>
-                    <Box>
-                        <Text fontSize="sm">Available Balance: 1000</Text>
-                    </Box>
-                </Flex>
+                        <Flex align="center" mb="8">
+                            <Image src="path/to/profile-image.jpg" borderRadius="full" boxSize="10" mr="2" />
+                            <Box>
+                                <Text fontWeight="bold">{_id}</Text>
+                                <Text >{email}</Text>
+                            </Box>
+
+                        </Flex>
+                        <Flex>
+                            <Box>
+                                <Text fontSize="sm">Available Balance: 1000</Text>
+                            </Box>
+                        </Flex>
+                    </div>) : (<div></div>)
+                }
+
                 {/* Tabs */}
                 <Flex flexDir="column">
                     <Box mb="4">
@@ -53,13 +61,14 @@ const Sidebar: React.FC = () => {
                         </Text>
                     </Box>
 
-                    {isLogged ? (
+                    {isLoggedIn ? (
                         <Button colorScheme='blue' >
                             Log-Out
                         </Button>
                     ) : (
                         <a href='/auth/login'>
-                            <Button colorScheme='blue' >
+
+                            <Button colorScheme='blue' onClick={logout} >
                                 Log-In
                             </Button>
                         </a>

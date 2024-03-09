@@ -3,7 +3,7 @@ const cors = require("cors");
 const authRouter = require("./routes/auth.route");
 const protectedRouter = require("./routes/protected.route");
 const connection = require("./config/db");
-
+const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 
@@ -13,6 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.text());
+app.use(cookieParser());
 
 app.use("/auth", authRouter);
 app.use("/protected", protectedRouter);

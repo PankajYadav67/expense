@@ -7,7 +7,7 @@ import Protected from "../components/Home/Protected";
 const Home: React.FC = () => {
 
   return (
-    <div className="bg-[#f5f5f5] font-[SF-Pro] mt-[55px] " >
+    <div className="bg-white font-[SF-Pro] mt-[55px] " >
 
       {/* left */}
       <div className="sm:grid sm:grid-cols-12 w-[1360px]">

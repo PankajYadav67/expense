@@ -19,7 +19,7 @@ import { PasswordField } from './PasswordField';
 import axios from 'axios';
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useAuth } from "../../../context/Auth.Context";
+import { useAuth } from "../../../context/Auth.Context";
 import URL from '../../../utils/Constant';
 // import SetAuthToken from '../../../utils/Axios.Config';
 
@@ -29,8 +29,9 @@ export const Login: React.FC<LoginProps> = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const toast = useToast();
-    // const { login } = useAuth();
+    const { login } = useAuth();
     const navigate = useNavigate();
+
 
     const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -60,7 +61,7 @@ export const Login: React.FC<LoginProps> = () => {
 
             if (response) {
                 const { payload } = response.data;
-                // SetAuthToken(payload);
+                login(payload);
                 navigate('/');
             }
             console.log(response.data);

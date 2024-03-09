@@ -72,7 +72,7 @@ authRouter.post("/login", validateFields, async (req, res) => {
         email,
         _id,
       };
-      console.log(SECRET);
+
       const token = new Promise((resolve, reject) => {
         jwt.sign(payload, SECRET, (err, token) => {
           if (err) {
@@ -83,9 +83,9 @@ authRouter.post("/login", validateFields, async (req, res) => {
         });
       });
 
-      res
-        .status(200)
-        .send({ message: "Login successful", payload, token: await token });
+      res.cookie("JWT_AUTH", token);
+
+      res.status(200).send({ message: "Login successful", payload });
     } else {
       res.status(401).send({ message: "Wrong credentials" });
     }
