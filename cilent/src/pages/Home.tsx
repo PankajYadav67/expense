@@ -1,7 +1,7 @@
 import Sidebar from "../components/Sidebar.tsx/Sidebar";
 import Server from "../components/Home/Server";
 import HomeRight from "./HomeRight";
-import Protected from "../components/Home/Protected";
+
 
 
 const Home: React.FC = () => {
