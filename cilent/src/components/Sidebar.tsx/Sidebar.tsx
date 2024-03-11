@@ -1,16 +1,17 @@
 // Sidebar.tsx
 import React from 'react';
-import { Box, Flex, Image, Text, Button, } from '@chakra-ui/react';
-import { theme } from '../../main';
+import { Box, Flex, Image, Text, Button, Divider, } from '@chakra-ui/react';
 import { useAuth } from '../../context/Auth.Context';
+import { theme } from '../../main';
+import Logout from './SidebarComponents/Logout';
 
 const Sidebar: React.FC = () => {
-    const { isLoggedIn, logout } = useAuth()
+    const { isLoggedIn } = useAuth();
     const { email, _id } = useAuth().userData;
 
     return (
 
-        <Box bg={theme.colors.brand.lightestGray} position="fixed" >
+        <Box position="fixed" bg={theme.colors.brand.lightestGray} >
             <Box
                 color="black"
                 w="64"
@@ -18,7 +19,7 @@ const Sidebar: React.FC = () => {
                 h="560"
                 display="flex"
                 flexDir="column"
-                borderRight="2px solid var(--chakra-colors-blue-500)"
+                borderRight="1px soild gray"
             >
                 {/* User Info */}
                 {
@@ -62,13 +63,11 @@ const Sidebar: React.FC = () => {
                     </Box>
 
                     {isLoggedIn ? (
-                        <Button colorScheme='blue' onClick={() => logout()} >
-                            Log-Out
-                        </Button>
+                        <Logout />
                     ) : (
                         <a href='/auth/login'>
 
-                            <Button colorScheme='blue'  >
+                            <Button colorScheme='blackAlpha'  >
                                 Log-In
                             </Button>
                         </a>
@@ -76,6 +75,7 @@ const Sidebar: React.FC = () => {
                 </Flex>
 
             </Box>
+            <Divider orientation='horizontal' sx={{ height: "1px", bg: "gray.500" }}></Divider>
 
 
 
@@ -83,5 +83,6 @@ const Sidebar: React.FC = () => {
 
     );
 };
+
 
 export default Sidebar;

@@ -79,9 +79,9 @@ export const Signup: React.FC<SignupProps> = () => {
             <Stack spacing="8">
                 <Stack spacing="6">
                     <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
-                        <Heading size={{ base: 'xs', md: 'sm' }}>Let's Create Your Account</Heading>
-                        <Text color="fg.muted">
-                            Already have an account <Link href="/auth/login">Log up</Link>
+                        <Heading size={{ base: 'xs', md: 'sm' }}>Let's Create An Account</Heading>
+                        <Text color="gray.500">
+                            Already have an account? <Link href="/auth/login">Log up</Link>
                         </Text>
                     </Stack>
                 </Stack>

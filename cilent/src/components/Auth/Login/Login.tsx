@@ -102,7 +102,7 @@ export const Login: React.FC<LoginProps> = () => {
                 <Stack spacing="6">
                     <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
                         <Heading size={{ base: 'xs', md: 'sm' }}>Log in to your account</Heading>
-                        <Text color="fg.muted">
+                        <Text color="gray.500">
                             Don't have an account? <Link href="/auth/signup">Sign up</Link>
                         </Text>
                     </Stack>
