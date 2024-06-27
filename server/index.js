@@ -1,10 +1,15 @@
 const express = require("express");
 const cors = require("cors");
-const authRouter = require("./routes/auth.route");
-const protectedRouter = require("./routes/protected.route");
 const connection = require("./config/db");
 const cookieParser = require("cookie-parser");
 
+// Routes
+const expenseRoutes = require("./routes/expenseRoutes");
+const incomeRoutes = require("./routes/incomeRoutes");
+const authRouter = require("./routes/auth.route");
+const protectedRouter = require("./routes/protected.route");
+
+// Config
 require("dotenv").config();
 
 const PORT = process.env.PORT;
@@ -18,8 +23,11 @@ app.use(express.json());
 app.use(express.text());
 app.use(cookieParser());
 
+// connecting the route
 app.use("/auth", authRouter);
 app.use("/protected", protectedRouter);
+app.use("/api", expenseRoutes);
+app.use("/api", incomeRoutes);
 
 app.get("/", (req, res) => {
   res.send(
