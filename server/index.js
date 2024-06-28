@@ -4,8 +4,7 @@ const connection = require("./config/db");
 const cookieParser = require("cookie-parser");
 
 // Routes
-const expenseRoutes = require("./routes/expenseRoutes");
-const incomeRoutes = require("./routes/incomeRoutes");
+const transactionsRoute = require("./routes/transactions/transactionsRoutes");
 const authRouter = require("./routes/auth.route");
 const protectedRouter = require("./routes/protected.route");
 
@@ -26,8 +25,7 @@ app.use(cookieParser());
 // connecting the route
 app.use("/auth", authRouter);
 app.use("/protected", protectedRouter);
-app.use("/api", expenseRoutes);
-app.use("/api", incomeRoutes);
+app.use("/api", transactionsRoute);
 
 app.get("/", (req, res) => {
   res.send(

@@ -1,4 +1,4 @@
-const Income = require("../models/Income");
+const Income = require("../models/Transcations/Income");
 
 // Create a new income
 exports.createIncome = async (req, res) => {
