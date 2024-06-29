@@ -14,7 +14,7 @@ export function RecentSales() {
             olivia.martin@email.com
           </p>
         </div>
-        <div className="ml-auto font-medium">+$1,999.00</div>
+        <div className="ml-auto font-medium">+ $1,999.00</div>
       </div>
       <div className="flex items-center">
         <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border">
@@ -25,7 +25,7 @@ export function RecentSales() {
           <p className="text-sm font-medium leading-none">Jackson Lee</p>
           <p className="text-sm text-muted-foreground">jackson.lee@email.com</p>
         </div>
-        <div className="ml-auto font-medium">+$39.00</div>
+        <div className="ml-auto font-medium ">($39.00)</div>
       </div>
       <div className="flex items-center">
         <Avatar className="h-9 w-9">
