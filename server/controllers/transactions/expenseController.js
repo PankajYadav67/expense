@@ -1,76 +1,166 @@
 const Expense = require("../../models/Transcations/expense");
+const { getMonthOfDate } = require("../../utils/transactionHelper");
+let nanoid;
+import("nanoid").then((module) => (nanoid = module.nanoid));
 
 // Create a new expense
 exports.createExpense = async (req, res) => {
   try {
-    const { amount, category, description } = req.body;
-    const userId = req.user.id; // Assuming you have middleware to extract user info
+    const {
+      userId,
+      transaction: {
+        mode,
+        category: { name, source },
+        amount,
+        description,
+        typeOfTransaction,
+        detailedType,
+        date,
+      },
+      timeStampOfTransactionRecord,
+    } = req.body;
+
+    const id = nanoid();
+    const monthOfTransactionVal = getMonthOfDate(date);
 
     const newExpense = new Expense({
-      amount,
-      category,
-      description,
+      id,
       userId,
+      transaction: {
+        mode,
+        category: { name, source },
+        amount,
+        description,
+        typeOfTransaction,
+        detailedType,
+        date,
+        monthOfTransaction: monthOfTransactionVal,
+      },
+      timeStampOfTransactionRecord,
     });
 
     await newExpense.save();
-    res.status(201).json(newExpense);
+    res.status(201).json({
+      responseJson: {
+        message: "Expense transaction saved successfully.",
+        data: newExpense,
+      },
+      responseCode: "1",
+    });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json({
+      responseJson: {
+        message: "Server error: unable to save income transaction.",
+        data: null,
+      },
+      responseCode: "-1",
+    });
   }
 };
 
 // Get all expenses
 exports.getAllExpenses = async (req, res) => {
   try {
-    const userId = req.user.id; // Assuming you have middleware to extract user info
-
+    const { userId } = req.body;
+    //desc order
     const expenses = await Expense.find({ userId }).sort({ date: -1 });
-    res.json(expenses);
+
+    if (!expenses || expenses?.length <= 0) {
+      return res.status(404).json({
+        responseJson: {
+          message: "No expense records found for user.",
+          data: null,
+        },
+        responseCode: "-1",
+      });
+    }
+
+    res.status(200).json({
+      responseJson: {
+        message: "All income records retrieved successfully.",
+        data: expenses,
+      },
+      responseCode: "1",
+    });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json({
+      responseJson: {
+        message: "Server error: unable to save income transaction.",
+        data: null,
+      },
+      responseCode: "-1",
+    });
   }
 };
 
 // Update an expense
 exports.updateExpense = async (req, res) => {
   try {
-    const { amount, category, description } = req.body;
-    const expenseId = req.params.id;
+    const { id, amount, mode, description, date } = req.body;
 
     const updatedExpense = await Expense.findByIdAndUpdate(
-      expenseId,
-      { $set: { amount, category, description } },
+      id,
+      { $set: { amount, mode, description, date } },
       { new: true }
     );
 
     if (!updatedExpense) {
-      return res.status(404).json({ msg: "Expense not found" });
+      return res.status(404).json({
+        responseJson: { message: "Expense record not found.", data: null },
+        responseCode: "-1",
+      });
     }
 
-    res.json(updatedExpense);
+    res.status(200).json({
+      responseJson: {
+        message: "Expense transaction updated successfully.",
+        data: updatedExpense,
+      },
+      responseCode: "1",
+    });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json({
+      responseJson: {
+        message: "Server error: unable to save income transaction.",
+        data: null,
+      },
+      responseCode: "-1",
+    });
   }
 };
 
 // Delete an expense
 exports.deleteExpense = async (req, res) => {
   try {
-    const expenseId = req.params.id;
+    const { id } = req.body;
 
-    const deletedExpense = await Expense.findByIdAndDelete(expenseId);
+    const deletedExpense = await Expense.findOneAndDelete({ id });
 
     if (!deletedExpense) {
-      return res.status(404).json({ msg: "Expense not found" });
+      return res.status(404).json({
+        responseJson: { message: "Expense record not found.", data: null },
+        responseCode: "-1",
+      });
     }
 
-    res.json({ msg: "Expense deleted" });
+    res.status(200).json({
+      responseJson: {
+        message: "Expense transaction deleted successfully.",
+        data: deletedExpense,
+      },
+      responseCode: "1",
+    });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json({
+      responseJson: {
+        message: "Server error: unable to save income transaction.",
+        data: null,
+      },
+      responseCode: "-1",
+    });
   }
 };

@@ -4,22 +4,22 @@ const {
   getAllIncomes,
   updateIncome,
   deleteIncome,
-} = require("../controllers/transactions/incomeController");
+} = require("../../controllers/transactions/incomeController");
 const {
   createExpense,
   getAllExpenses,
   updateExpense,
   deleteExpense,
-} = require("../controllers/transactions/expenseController");
+} = require("../../controllers/transactions/expenseController");
 
-router
-  .post("/add-income", createIncome)
-  .get("/get-incomes", getAllIncomes)
-  .update("/update-income", updateIncome)
-  .delete("/delete-income/:id", deleteIncome)
-  .post("/add-expense", createExpense)
-  .get("/get-expenses", getAllExpenses)
-  .update("/update-expense", updateExpense)
-  .delete("/delete-expense/:id", deleteExpense);
+router.post("/addIncome", createIncome);
+router.get("/getIncomes", getAllIncomes);
+router.patch("/updateIncome", updateIncome);
+router.delete("/deleteIncome", deleteIncome);
+
+router.post("/addExpense", createExpense);
+router.get("/getExpenses", getAllExpenses);
+router.patch("/updateExpense", updateExpense);
+router.delete("/deleteExpense", deleteExpense);
 
 module.exports = router;

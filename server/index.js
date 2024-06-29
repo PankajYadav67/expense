@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const connection = require("./config/db");
 const cookieParser = require("cookie-parser");
-
+const { readdirSync } = require("fs");
 // Routes
 const transactionsRoute = require("./routes/transactions/transactionsRoutes");
 const authRouter = require("./routes/auth.route");
@@ -25,7 +25,10 @@ app.use(cookieParser());
 // connecting the route
 app.use("/auth", authRouter);
 app.use("/protected", protectedRouter);
-app.use("/api", transactionsRoute);
+// app.use("/api", transactionsRoute);
+readdirSync("./routes/transactions/").map((route) =>
+  app.use("/api/v1", require("./routes/transactions/" + route))
+);
 
 app.get("/", (req, res) => {
   res.send(

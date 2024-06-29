@@ -1,23 +1,64 @@
 const mongoose = require("mongoose");
 
 const expenseSchema = new mongoose.Schema({
-  amount: {
-    type: Number,
+  id: {
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
+    unique: true,
   },
-  category: {
+  userId: {
     type: String,
     required: true,
   },
-  description: String,
-  date: {
-    type: Date,
-    default: Date.now,
+  transaction: {
+    mode: {
+      type: String,
+      required: true,
+    },
+    category: {
+      name: {
+        type: String,
+        required: true,
+      },
+      source: {
+        type: String,
+        required: true,
+        default: "Unknown",
+      },
+    },
+    description: String,
+    amount: {
+      type: Number,
+      required: true,
+    },
+    typeOfTransaction: {
+      type: String,
+      required: true,
+      default: "DR",
+    },
+    detailedType: {
+      type: String,
+      required: true,
+      default: "Debit",
+    },
+    date: {
+      type: Date,
+      required: true,
+      default: Date.now(),
+    },
+    monthOfTransaction: {
+      type: String,
+      required: true,
+    },
   },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // If you have a User model
+  timeStampOfTransactionRecord: {
+    type: Date,
     required: true,
+    default: Date.now(),
+  },
+  rupeeSymbol: {
+    type: String,
+    default: "₹",
   },
 });
 
