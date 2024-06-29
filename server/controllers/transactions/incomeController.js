@@ -48,8 +48,8 @@ exports.createIncome = async (req, res) => {
       },
       responseCode: "1",
     });
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    console.error(error.message);
     res.status(500).json({
       responseJson: {
         message: "Server error: unable to save income transaction.",
@@ -84,8 +84,8 @@ exports.getAllIncomes = async (req, res) => {
       },
       responseCode: "1",
     });
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    console.error(error.message);
     res.status(500).json({
       responseJson: {
         message: "Server error: unable to retrieve income records.",
@@ -121,8 +121,8 @@ exports.updateIncome = async (req, res) => {
       },
       responseCode: "1",
     });
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    console.error(error.message);
     res.status(500).json({
       responseJson: {
         message: "Server error: unable to update income transaction.",
@@ -154,8 +154,8 @@ exports.deleteIncome = async (req, res) => {
       },
       responseCode: "1",
     });
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    console.error(error.message);
     res.status(500).json({
       responseJson: {
         message: "Server error: unable to delete income transaction.",

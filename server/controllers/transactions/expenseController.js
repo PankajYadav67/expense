@@ -47,8 +47,8 @@ exports.createExpense = async (req, res) => {
       },
       responseCode: "1",
     });
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    console.error(error.message);
     res.status(500).json({
       responseJson: {
         message: "Server error: unable to save income transaction.",
@@ -83,8 +83,8 @@ exports.getAllExpenses = async (req, res) => {
       },
       responseCode: "1",
     });
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    console.error(error.message);
     res.status(500).json({
       responseJson: {
         message: "Server error: unable to save income transaction.",
@@ -120,8 +120,8 @@ exports.updateExpense = async (req, res) => {
       },
       responseCode: "1",
     });
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    console.error(error.message);
     res.status(500).json({
       responseJson: {
         message: "Server error: unable to save income transaction.",
@@ -153,8 +153,8 @@ exports.deleteExpense = async (req, res) => {
       },
       responseCode: "1",
     });
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    console.error(error.message);
     res.status(500).json({
       responseJson: {
         message: "Server error: unable to save income transaction.",

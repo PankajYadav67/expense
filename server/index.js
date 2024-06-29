@@ -3,9 +3,8 @@ const cors = require("cors");
 const connection = require("./config/db");
 const cookieParser = require("cookie-parser");
 const { readdirSync } = require("fs");
+
 // Routes
-const transactionsRoute = require("./routes/transactions/transactionsRoutes");
-const authRouter = require("./routes/auth.route");
 const protectedRouter = require("./routes/protected.route");
 
 // Config
@@ -23,28 +22,27 @@ app.use(express.text());
 app.use(cookieParser());
 
 // connecting the route
-app.use("/auth", authRouter);
 app.use("/protected", protectedRouter);
-// app.use("/api", transactionsRoute);
 readdirSync("./routes/transactions/").map((route) =>
   app.use("/api/v1", require("./routes/transactions/" + route))
 );
+readdirSync("./routes/auth/").map((route) =>
+  app.use("/api/v1", require("./routes/auth/" + route))
+);
 
 app.get("/", (req, res) => {
-  res.send(
-    "This is HomePage if its visiable for you its mean your express app running fine..."
-  );
+  res.send("Welcome! Your express app is running successfully");
 });
 
 app.post("/post", (req, res) => {
-  res.send("got it");
+  res.send("Request received.");
 });
 
 app.listen(PORT, async () => {
   try {
     await connection;
-  } catch {
-    console.log("there error in connecting to mongodb");
+  } catch (error) {
+    console.log("Error connecting to MongoDB:", error);
   }
-  console.log(`started at ${PORT}`);
+  console.log(`Server started on port ${PORT}`);
 });
