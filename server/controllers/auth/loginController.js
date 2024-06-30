@@ -1,4 +1,4 @@
-const UserModel = require("../../models/auth/loginModel");
+const registeringUserSchema = require("../../models/auth/registerModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { validateFields } = require("../../middlewares/auth/authMiddleware");
@@ -11,15 +11,15 @@ const SECRET = process.env.SECRET;
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await UserModel.findOne({ email });
+    const user = await registeringUserSchema.findOne({ email });
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (passwordMatch === true) {
-      let { email, _id } = user;
+      let { email, userId } = user;
       let payload = {
         email,
-        _id,
+        userId,
       };
 
       const token = new Promise((resolve, reject) => {
@@ -31,13 +31,16 @@ const loginUser = async (req, res) => {
           }
         });
       });
+      if (!token) {
+        console.log("token not signed");
+      }
 
       res.cookie("JWT_AUTH", await token, { httpOnly: true });
 
-      res.status(200).json({
+      return res.status(200).json({
         responseJson: {
           message: "Login successfully.",
-          data: token,
+          data: { token, payload },
         },
         responseCode: "1",
       });

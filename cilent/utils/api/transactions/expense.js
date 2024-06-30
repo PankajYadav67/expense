@@ -1,8 +1,9 @@
-const { handleApiError } = require('../../helperFunctions');
+import { handleApiError } from '../../helperFunctions';
+import 'dotenv/config';
+const url = process.env.BACKEND_URL;
+import axios from 'axios';
 
-const url = 'http://localhost:8080/api/v1/';
-
-const addExpense = async (data) => {
+const AddExpense = async (data) => {
   const requestBody = {
     userId: '2',
     transaction: {
@@ -28,7 +29,7 @@ const addExpense = async (data) => {
   }
 };
 
-const getExpense = async (data) => {
+const GetExpense = async (data) => {
   const requestBody = {
     userId: '2'
   };
@@ -43,7 +44,7 @@ const getExpense = async (data) => {
   }
 };
 
-const updateExpense = async (data) => {
+const UpdateExpense = async (data) => {
   const requestBody = {
     userId: '2',
     transaction: {
@@ -69,7 +70,7 @@ const updateExpense = async (data) => {
   }
 };
 
-const deleteExpense = async (data) => {
+const DeleteExpense = async (data) => {
   const requestBody = {
     id: 'aK5V60GWyvq6O5eKzMeYo'
   };
@@ -84,4 +85,4 @@ const deleteExpense = async (data) => {
   }
 };
 
-export { addExpense, getExpense, updateExpense, deleteExpense };
+export { AddExpense, GetExpense, UpdateExpense, DeleteExpense };

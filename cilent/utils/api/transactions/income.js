@@ -1,8 +1,9 @@
-const { handleApiError } = require('../../helperFunctions');
+import 'dotenv/config';
+import { handleApiError } from '../../helperFunctions';
+const url = process.env.BACKEND_URL;
+import axios from 'axios';
 
-const url = 'http://localhost:8080/api/v1/';
-
-const addIncome = async (data) => {
+const AddIncome = async (data) => {
   const requestBody = {
     userId: '2',
     transaction: {
@@ -28,7 +29,7 @@ const addIncome = async (data) => {
   }
 };
 
-const getIncome = async (data) => {
+const GetIncome = async (data) => {
   const requestBody = {
     userId: '2'
   };
@@ -43,7 +44,7 @@ const getIncome = async (data) => {
   }
 };
 
-const updateIncome = async (data) => {
+const UpdateIncome = async (data) => {
   const requestBody = {
     userId: '2',
     transaction: {
@@ -69,7 +70,7 @@ const updateIncome = async (data) => {
   }
 };
 
-const deleteIncome = async (data) => {
+const DeleteIncome = async (data) => {
   const requestBody = {
     id: 'aK5V60GWyvq6O5eKzMeYo'
   };
@@ -84,4 +85,4 @@ const deleteIncome = async (data) => {
   }
 };
 
-export { addIncome, getIncome, updateIncome, deleteIncome };
+export { AddIncome, GetIncome, UpdateIncome, DeleteIncome };
