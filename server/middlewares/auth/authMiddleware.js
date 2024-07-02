@@ -3,7 +3,7 @@ const UserModel = require("../../models/auth/loginModel");
 const SECRET = process.env.JWT_SECRET;
 
 const authMiddleware = (req, res, next) => {
-  const token = req.header("x-auth-token");
+  const token = req.cookies.JWT_AUTH;
 
   if (!token) {
     return res.status(401).json({ msg: "No token, authorization denied" });
@@ -11,7 +11,7 @@ const authMiddleware = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, SECRET);
-    req.user = decoded.user;
+    req.user = decoded;
     next();
   } catch (err) {
     res.status(401).json({ msg: "Token is not valid" });

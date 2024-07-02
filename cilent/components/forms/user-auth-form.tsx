@@ -46,7 +46,7 @@ export default function UserAuthForm() {
 
   return (
     <>
-      {/* <Form {...form}>
+      <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-2"
@@ -74,7 +74,7 @@ export default function UserAuthForm() {
             Continue With Email
           </Button>
         </form>
-      </Form> */}
+      </Form>
       <Link href="/signup">
         <Button className="ml-auto w-full" type="submit">
           Sign-Up

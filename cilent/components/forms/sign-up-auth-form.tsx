@@ -14,24 +14,29 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Router } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 const formSchema = z.object({
     username: z.string().nonempty({ message: 'Enter a valid username' }),
-    name: z.string().nonempty({ message: 'Enter a valid name' }),
+    fullName: z.string().nonempty({ message: 'Enter a valid name' }),
     email: z.string().email({ message: 'Enter a valid email address' }),
     password: z.string().nonempty({ message: 'Enter a valid password' })
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
+// Type guard to check if response has the 'res' property
+function isResponseWithRes(obj: any): obj is { res: any } {
+    return obj && obj.res !== undefined;
+}
 
 export default function SignupUserAuthForm() {
+    const [loading, setLoading] = useState(false);
+    const router = useRouter()
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get('callbackUrl');
-    const [loading, setLoading] = useState(false);
     const defaultValues = {
         // username: 'demo1',
         // name: 'pankaj yadav',
@@ -42,7 +47,7 @@ export default function SignupUserAuthForm() {
         resolver: zodResolver(formSchema),
         defaultValues
     });
-    const router = useRouter()
+
 
     const onSubmit = async (data: UserFormValue) => {
         signIn('credentials', {
@@ -56,15 +61,17 @@ export default function SignupUserAuthForm() {
         try {
             const requestBody = {
                 username: data.username,
-                name: data.name,
+                fullName: data.fullName,
                 email: data.email,
                 password: data.password,
             }
             const res = await SignUpAPI(requestBody);
             console.log(res, "Signup API response");
-            // if (res?.res?.responseCode !== "-1") {
-            router.push("/login")
-            // }
+            if (isResponseWithRes(res) && res.res.responseCode !== "-1") {
+                router.push("/login");
+            } else {
+                console.error("Signup failed:");
+            }
         } catch (error) {
             console.error("Error in handleSignUP:", error);
         } finally {
@@ -99,7 +106,7 @@ export default function SignupUserAuthForm() {
                     />
                     <FormField
                         control={form.control}
-                        name="name"
+                        name="fullName"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Name</FormLabel>

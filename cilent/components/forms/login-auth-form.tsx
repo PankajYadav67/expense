@@ -11,7 +11,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -24,14 +24,18 @@ const formSchema = z.object({
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
-
+// Type guard to check if response has the 'res' property
+function isResponseWithRes(obj: any): obj is { response: any } {
+    return obj && obj.response !== undefined;
+}
 export default function LoginUserAuthForm() {
+    const [loading, setLoading] = useState(false);
+    const router = useRouter()
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get('callbackUrl');
-    const [loading, setLoading] = useState(false);
     const defaultValues = {
-        email: 'example@gmail.com',
-        password: "example@123"
+        email: 'example1@gmail.com',
+        password: "Example@123"
     };
     const form = useForm<UserFormValue>({
         resolver: zodResolver(formSchema),
@@ -54,6 +58,11 @@ export default function LoginUserAuthForm() {
             }
             const res = await LoginAPI(requestBody);
             console.log(res, "Login API response");
+            if (isResponseWithRes(res) && res.response.responseCode !== "-1") {
+                router.push("/dashboard");
+            } else {
+                console.error("Signup failed:");
+            }
         } catch (error) {
             console.error("Error in handleLogin:", error);
         } finally {

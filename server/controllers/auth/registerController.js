@@ -1,20 +1,20 @@
-const registeringUserSchema = require("../../models/auth/registerModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const UserModel = require("../../models/auth/loginModel");
 let nanoid;
 import("nanoid").then((module) => (nanoid = module.nanoid));
 require("dotenv").config();
 
 const registerUser = async (req, res) => {
   try {
-    const { name, username, email, password } = req.body;
+    const { fullName, username, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const userId = nanoid();
     // Create a new user
-    const newUser = await registeringUserSchema.create({
+    const newUser = await UserModel.create({
       userId,
       email,
-      name,
+      fullName,
       username,
       password: hashedPassword,
     });
